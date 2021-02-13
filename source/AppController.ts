@@ -1,20 +1,19 @@
-import { Controller, Get } from '@nestjs/common/decorators';
+import { Body, Controller, Post } from '@nestjs/common/decorators';
 
-import AppService from "./AppService";
-
+import AppService, { Chunk } from "./AppService";
 
 @Controller()
 class AppController {
-    private readonly service: AppService;
+    private readonly service: AppService
 
     constructor(service: AppService) {
         this.service = service;
     }
 
-    @Get()
-    index() {
-        // @ts-ignore
-        return this.service.retrieve(null, null);
+    @Post()
+    async loadChunk(@Body() chunk: Chunk) {
+        console.log(chunk)
+        return await this.service.retrieve(chunk)
     }
 }
 

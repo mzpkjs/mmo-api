@@ -1,21 +1,51 @@
 import { Injectable } from "@nestjs/common";
+import { MongoClient } from "mongodb";
+import { parse } from "wellknown";
 
+export type Chunk = {
+    minBound: {x: number, y: number, z: number}
+    maxBound: {x: number, y: number, z: number}
+}
 
 @Injectable()
 class AppService {
-    // @ts-ignore
-    retrieve(radius: number, origin: { x: number, y: number }) {
-        return [
-            { x: 0, y: 0 },
-            { x: 1, y: 0 },
-            { x: 2, y: 0 },
-            { x: 0, y: 1 },
-            { x: 1, y: 1 },
-            { x: 2, y: 1 },
-            { x: 0, y: 2 },
-            { x: 1, y: 2 },
-            { x: 2, y: 2 },
-        ];
+    private readonly client = new MongoClient('mongodb://root:password@localhost:27017', { useUnifiedTopology: true })
+
+    async retrieve(chunk: Chunk) {
+        if (!this.client.isConnected()) {
+            await this.client.connect()
+        }
+
+        const geoJson = parse(`POLYGON((
+            ${chunk.minBound.x} ${chunk.minBound.y},
+            ${chunk.maxBound.x} ${chunk.minBound.y},
+            ${chunk.maxBound.x} ${chunk.maxBound.y},
+            ${chunk.minBound.x} ${chunk.maxBound.y},
+            ${chunk.minBound.x} ${chunk.minBound.y}
+            ))`)
+
+        return this.client.db('world').collection('hexes').find({     
+                position: {       
+                    $geoWithin: {          
+                        $geometry: geoJson     
+                    }
+                },
+                "position.coordinates.2": {
+                    $gte: chunk.minBound.z,
+                    $lte: chunk.maxBound.z
+                }
+            }, {
+                projection: {
+                    _id: 0
+                }
+            }
+        ).map(hex => ({
+            position: {
+                x: hex.position.coordinates[0],
+                y: hex.position.coordinates[1],
+                z: hex.position.coordinates[2]
+            }
+        })).toArray()
     }
 }
 
