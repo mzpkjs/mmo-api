@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common/decorators';
+import { Body, Controller, Get, Post } from '@nestjs/common/decorators';
 
 import AppService, { Chunk } from "./AppService";
 
@@ -8,6 +8,11 @@ class AppController {
 
     constructor(service: AppService) {
         this.service = service;
+    }
+
+    @Get()
+    index() {
+        return 'ok'
     }
 
     @Post()
