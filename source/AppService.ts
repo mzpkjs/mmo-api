@@ -9,7 +9,7 @@ export type Chunk = {
 
 @Injectable()
 class AppService {
-    private readonly client = new MongoClient('mongodb://root:password@localhost:27017', { useUnifiedTopology: true })
+    private readonly client = new MongoClient(process.env.MONGO_CONNECTION_STRING as string, { useUnifiedTopology: true })
 
     async retrieve(chunk: Chunk) {
         if (!this.client.isConnected()) {

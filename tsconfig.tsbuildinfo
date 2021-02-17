@@ -1437,7 +1437,7 @@
         "affectsGlobalScope": false
       },
       "./source/appservice.ts": {
-        "version": "656e8b511dc7673126305a718dd845b92844442c9419a78a0ffcc9651ddf0a1a",
+        "version": "b2442088ba8094beb7d5ceab8c9325ea799c213c86e6ad12bdbd45fcb7e9e359",
         "signature": "08f3a656697a9dfcb1c1998c05a3bc8c35d903879385ef5e58f5eec8e1e4b016",
         "affectsGlobalScope": false
       },
@@ -1632,7 +1632,7 @@
         "affectsGlobalScope": false
       },
       "./source/index.ts": {
-        "version": "5ae4a4690de0523db9234db33056077f346071047ccd9ac6d432c1f64afecf68",
+        "version": "be6df2e1d103665b282213d8b2ccf16e5765a6cbd96b0b70f17bee49a28d3d30",
         "signature": "f667f6b1d66ba55f0dcd27f5ff050063fecfe289bad00e8c5d48344a775c1439",
         "affectsGlobalScope": false
       }
