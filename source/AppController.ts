@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common/decorators';
+import { Body, Controller, Get,  Post } from '@nestjs/common/decorators';
 
 import AppService, { Chunk } from "./AppService";
 
@@ -18,7 +18,10 @@ class AppController {
     @Post()
     async loadChunk(@Body() chunk: Chunk) {
         console.log(chunk)
-        return await this.service.retrieve(chunk)
+        const timestamp = Date.now()
+        const result = await this.service.retrieve(chunk);
+        console.log(Date.now() - timestamp)
+        return result
     }
 }
 
