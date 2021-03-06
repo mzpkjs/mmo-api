@@ -17,10 +17,9 @@ class AppController {
 
     @Post()
     async loadChunk(@Body() chunk: Chunk) {
-        console.log(chunk)
         const timestamp = Date.now()
         const result = await this.service.retrieve(chunk);
-        console.log(Date.now() - timestamp)
+        console.log(chunk, Date.now() - timestamp, 'ms')
         return result
     }
 }
